@@ -15,7 +15,7 @@ public class MenuUI : MonoBehaviour
 
     public void Play()
     {
-        SceneManager.LoadScene("Aure");
+        SceneManager.LoadScene("Alban_Test");
     }
     public void Quit()
     {
