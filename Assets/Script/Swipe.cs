@@ -8,7 +8,7 @@ public class Swipe : MonoBehaviour
     private Vector2 endTouchPosition;
     private bool WillBeRoot;
     private bool DontMakeTheRootFalse;
-    private bool ItsRooted;
+    public bool ItsRooted;
     private int RailPosition;
     public GameObject LeftPosition;
     public GameObject RightPosition;
@@ -38,7 +38,7 @@ public class Swipe : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
         //We will be rooted if we don't move our finger
         if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Stationary)
         {
@@ -64,6 +64,7 @@ public class Swipe : MonoBehaviour
                 {
                     block.GetComponent<Road>().speed = 1;
                 }
+                Debug.Log("EndRoot");
                 animator.SetBool("IsRooted", false);
 
             }
@@ -253,9 +254,9 @@ public class Swipe : MonoBehaviour
     }
     IEnumerator SlideWait()
     {
-            Debug.Log("Slidewit");
-            yield return new WaitForSeconds(0.1f);
-            animator.SetBool("IsSliding", false);
+        Debug.Log("Slidewit");
+        yield return new WaitForSeconds(0.1f);
+        animator.SetBool("IsSliding", false);
     }
 
     IEnumerator JumpWait()
