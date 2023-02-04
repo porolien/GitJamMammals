@@ -18,6 +18,7 @@ public class Swipe : MonoBehaviour
     private bool IsJumping;
     public int Hp;
     public int HpMax;
+    public Canvas GameOverScreen;
     // Start is called before the first frame update
     void Start()
     {
@@ -174,6 +175,7 @@ public class Swipe : MonoBehaviour
         Hp = Hp - damage;
         if(Hp <= 0)
         {
+            GameOverScreen.gameObject.SetActive(true);
             Destroy(gameObject);
         }
         else

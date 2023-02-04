@@ -4,5 +4,14 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/MenuStart.unity
+    guid: dde622dd11fbc8d4fbacb0adc047314f
+  - enabled: 1
+    path: Assets/Scenes/Aure.unity
+    guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Scenes/Alban_test.unity
+    guid: 31710a3e7635de44da51388b761bb2a7
   m_configObjects: {}
