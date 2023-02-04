@@ -36,6 +36,7 @@ public class Swipe : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         //We will be rooted if we don't move our finger
         if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Stationary)
         {
