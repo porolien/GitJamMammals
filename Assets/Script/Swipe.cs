@@ -253,14 +253,14 @@ public class Swipe : MonoBehaviour
     IEnumerator SlideWait()
     {
             Debug.Log("Slidewit");
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.1f);
             animator.SetBool("IsSliding", false);
     }
 
     IEnumerator JumpWait()
     {
         Debug.Log("jumpwait");
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.1f);
         animator.SetBool("IsJumping", false);
 
     }
