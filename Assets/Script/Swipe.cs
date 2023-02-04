@@ -8,6 +8,7 @@ public class Swipe : MonoBehaviour
     private Vector2 endTouchPosition;
     private bool WillBeRoot;
     private bool DontMakeTheRootFalse;
+    private bool ItsRooted;
     private int RailPosition;
     public GameObject LeftPosition;
     public GameObject RightPosition;
@@ -20,6 +21,9 @@ public class Swipe : MonoBehaviour
     public int HpMax;
     public float yPos;
     public Canvas GameOverScreen;
+    public Road TheRoad;
+
+    public GameObject[] AllBlock;
     // Start is called before the first frame update
     void Start()
     {
@@ -50,102 +54,115 @@ public class Swipe : MonoBehaviour
         }
         if(Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
         {
-            //We Save our finger position to know where we want to move our player
-            endTouchPosition = Input.GetTouch(0).position;
-            float makePositionXPositive = endTouchPosition.x - startTouchPosition.x;
-            float makePositionYPositive = endTouchPosition.y - startTouchPosition.y;
-            if (endTouchPosition.x < startTouchPosition.x)
+            if (ItsRooted)
             {
-                makePositionXPositive = -makePositionXPositive;
+                ItsRooted = false;
+                AllBlock = GameObject.FindGameObjectsWithTag("Block");
+                foreach (GameObject block in AllBlock)
+                {
+                    block.GetComponent<Road>().speed = 1;
+                }
             }
-            if (endTouchPosition.y < startTouchPosition.y)
+            else
             {
-                makePositionYPositive = -makePositionYPositive ;
-            }
-           //In this situaition we swipe down
-            if (makePositionXPositive < makePositionYPositive)
-            {
+
+                //We Save our finger position to know where we want to move our player
+                endTouchPosition = Input.GetTouch(0).position;
+                float makePositionXPositive = endTouchPosition.x - startTouchPosition.x;
+                float makePositionYPositive = endTouchPosition.y - startTouchPosition.y;
+                if (endTouchPosition.x < startTouchPosition.x)
+                {
+                    makePositionXPositive = -makePositionXPositive;
+                }
                 if (endTouchPosition.y < startTouchPosition.y)
                 {
-                    if (IsSliding)
-                    {
-                        Debug.Log("Nope, you can't Slide");
-                    }
-                    
-                     else
-                    {
-                        if (IsJumping)
-                        {
-                            IsJumping = false;
-                            MyTransform.position = new Vector3(MyTransform.transform.position.x, yPos, MyTransform.position.z);
-                        }
-                        else
-                        {
-
-                            IsSliding = true;
-                            MyTransform.position = new Vector3(MyTransform.position.x, RightPosition.transform.position.y, MyTransform.position.z);
-                            StartCoroutine(ChangingState());
-                        }
-                    }
-                    Debug.Log("down");
+                    makePositionYPositive = -makePositionYPositive;
                 }
-                //In this situaition we swipe up
-                if (endTouchPosition.y > startTouchPosition.y)
+                //In this situaition we swipe down
+                if (makePositionXPositive < makePositionYPositive)
                 {
-                    if (IsJumping)
-                    {
-                        Debug.Log("Nope, you can't Jump");
-                    }
-                    else 
+                    if (endTouchPosition.y < startTouchPosition.y)
                     {
                         if (IsSliding)
                         {
-                            IsSliding = false;
-                            MyTransform.position = new Vector3(MyTransform.transform.position.x, yPos, MyTransform.position.z);
+                            Debug.Log("Nope, you can't Slide");
+                        }
+
+                        else
+                        {
+                            if (IsJumping)
+                            {
+                                IsJumping = false;
+                                MyTransform.position = new Vector3(MyTransform.transform.position.x, yPos, MyTransform.position.z);
+                            }
+                            else
+                            {
+
+                                IsSliding = true;
+                                MyTransform.position = new Vector3(MyTransform.position.x, RightPosition.transform.position.y, MyTransform.position.z);
+                                StartCoroutine(ChangingState());
+                            }
+                        }
+                        Debug.Log("down");
+                    }
+                    //In this situaition we swipe up
+                    if (endTouchPosition.y > startTouchPosition.y)
+                    {
+                        if (IsJumping)
+                        {
+                            Debug.Log("Nope, you can't Jump");
                         }
                         else
                         {
-                            IsJumping = true;
-                            MyTransform.position = new Vector3(MyTransform.position.x, UpPosition.transform.position.y, MyTransform.position.z);
-                            StartCoroutine(ChangingState());
+                            if (IsSliding)
+                            {
+                                IsSliding = false;
+                                MyTransform.position = new Vector3(MyTransform.transform.position.x, yPos, MyTransform.position.z);
+                            }
+                            else
+                            {
+                                IsJumping = true;
+                                MyTransform.position = new Vector3(MyTransform.position.x, UpPosition.transform.position.y, MyTransform.position.z);
+                                StartCoroutine(ChangingState());
+                            }
                         }
+                        Debug.Log("up");
+
                     }
-                    Debug.Log("up");
 
                 }
-            }
-            else 
-            {
-                //In this situaition we swipe left
-                if (endTouchPosition.x < startTouchPosition.x)
+                else
                 {
-                    if (RailPosition == 1)
+                    //In this situaition we swipe left
+                    if (endTouchPosition.x < startTouchPosition.x)
                     {
-                        TakeDmg(1);
+                        if (RailPosition == 1)
+                        {
+                            TakeDmg(1);
+                        }
+                        else
+                        {
+                            RailPosition--;
+                            MoveThePlayer();
+                        }
+                        Debug.Log("left");
                     }
-                    else
+                    //In this situaition we swipe right
+                    if (endTouchPosition.x > startTouchPosition.x)
                     {
-                        RailPosition--;
-                        MoveThePlayer();
+                        if (RailPosition == 3)
+                        {
+                            TakeDmg(1);
+                        }
+                        else
+                        {
+                            RailPosition++;
+                            MoveThePlayer();
+                        }
+                        Debug.Log("right");
                     }
-                    Debug.Log("left");
-                }
-                //In this situaition we swipe right
-                if (endTouchPosition.x > startTouchPosition.x)
-                {
-                    if (RailPosition == 3)
-                    {
-                        TakeDmg(1);
-                    }
-                    else
-                    {
-                        RailPosition++;
-                        MoveThePlayer();
-                    }
-                    Debug.Log("right");
                 }
             }
-            
         }
     }
 
@@ -214,9 +231,15 @@ public class Swipe : MonoBehaviour
             yield return new WaitForSeconds(0.07f);
             if (DontMakeTheRootFalse)
             {
+                AllBlock = GameObject.FindGameObjectsWithTag("Block");
+                foreach (GameObject block in AllBlock)
+                {
+                    block.GetComponent<Road>().speed = 0;
+                }
                 Debug.Log("Roots");
                 DontMakeTheRootFalse = false;
                 WillBeRoot = false;
+                ItsRooted = true;
             }
             else
             {
