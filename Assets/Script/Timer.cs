@@ -7,13 +7,12 @@ public class Timer : MonoBehaviour
 {
     public TMP_Text TimerText = null;
     private string TimerInString = "";
-    // Start is called before the first frame update
-    void Start()
-    {
 
+    private void Start()
+    {
+        TimerText = GetComponent<TMP_Text>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         int TimerInSeconds = (int)Time.timeSinceLevelLoad;
