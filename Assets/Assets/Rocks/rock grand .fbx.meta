@@ -1,71 +1,8 @@
 fileFormatVersion: 2
-guid: bdfca6f8f5ab26f47bbde9fa95f025df
+guid: cd3165c5e1cb0a6408b939b147057ad7
 ModelImporter:
   serializedVersion: 21300
-  internalIDToNameTable:
-  - first:
-      74: 3730799363632591214
-    second: Cylinder.010|Cylinder.001Action
-  - first:
-      74: 4810772521604839299
-    second: Cylinder.010|Cylinder.002Action
-  - first:
-      74: 654952169600012179
-    second: Cylinder.010|Cylinder.005Action
-  - first:
-      74: 3092007485715232756
-    second: Cylinder.010|Cylinder.006Action
-  - first:
-      74: 3504631438840625292
-    second: Cylinder.010|Cylinder.007Action
-  - first:
-      74: 4205569369716233058
-    second: Cylinder.010|CylinderAction
-  - first:
-      74: 3787343451544898092
-    second: Cylinder.010|EmptyAction
-  - first:
-      74: -206136806410576011
-    second: "bras anim\xE9|Cylinder.001Action"
-  - first:
-      74: 2265961629425106723
-    second: "bras anim\xE9|Cylinder.002Action"
-  - first:
-      74: -2517312530176566756
-    second: "bras anim\xE9|Cylinder.005Action"
-  - first:
-      74: -6102541923415980017
-    second: "bras anim\xE9|Cylinder.006Action"
-  - first:
-      74: -967192020176443072
-    second: "bras anim\xE9|Cylinder.007Action"
-  - first:
-      74: 8895453944000621158
-    second: "bras anim\xE9|CylinderAction"
-  - first:
-      74: 7557082057395714876
-    second: "bras anim\xE9|EmptyAction"
-  - first:
-      74: -7835709625878653846
-    second: roue|Cylinder.001Action
-  - first:
-      74: 4961628177429441011
-    second: roue|Cylinder.002Action
-  - first:
-      74: -1151340786787432923
-    second: roue|Cylinder.005Action
-  - first:
-      74: -2961574299232230738
-    second: roue|Cylinder.006Action
-  - first:
-      74: 9166012802426589757
-    second: roue|Cylinder.007Action
-  - first:
-      74: -3638030569375009676
-    second: roue|CylinderAction
-  - first:
-      74: -5603649764121365407
-    second: roue|EmptyAction
+  internalIDToNameTable: []
   externalObjects: {}
   materials:
     materialImportMode: 2
