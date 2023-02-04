@@ -198,11 +198,14 @@ public class Swipe : MonoBehaviour
         Hp = Hp - damage;
         if (Hp <= 0)
         {
-            GameOverScreen.gameObject.SetActive(true);
-            Destroy(gameObject);
+            //GameOverScreen.gameObject.SetActive(true);
+            animator.SetBool("IsDead",true);
+            //Destroy(gameObject);
         }
         else
         {
+            animator.SetBool("IsHurt", true);
+            StartCoroutine(SwitchHurtBool());
             StartCoroutine(Regen());
         }
     }
@@ -210,6 +213,11 @@ public class Swipe : MonoBehaviour
     {
         yield return new WaitForSeconds(2f);
         Hp = HpMax;
+    }
+    IEnumerator SwitchHurtBool()
+    {
+        yield return new WaitForSeconds(0.1f);
+        animator.SetBool("IsHurt",false);
     }
     IEnumerator ChangingState()
     {
