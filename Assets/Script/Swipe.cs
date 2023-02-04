@@ -18,6 +18,7 @@ public class Swipe : MonoBehaviour
     private bool IsJumping;
     public int Hp;
     public int HpMax;
+    public float yPos;
     public Canvas GameOverScreen;
     // Start is called before the first frame update
     void Start()
@@ -76,7 +77,7 @@ public class Swipe : MonoBehaviour
                         if (IsJumping)
                         {
                             IsJumping = false;
-                            MyTransform.position = new Vector3(MyTransform.transform.position.x, 0.51f, MyTransform.position.z);
+                            MyTransform.position = new Vector3(MyTransform.transform.position.x, yPos, MyTransform.position.z);
                         }
                         else
                         {
@@ -100,7 +101,7 @@ public class Swipe : MonoBehaviour
                         if (IsSliding)
                         {
                             IsSliding = false;
-                            MyTransform.position = new Vector3(MyTransform.transform.position.x, 0.51f, MyTransform.position.z);
+                            MyTransform.position = new Vector3(MyTransform.transform.position.x, yPos, MyTransform.position.z);
                         }
                         else
                         {
@@ -194,12 +195,12 @@ public class Swipe : MonoBehaviour
         if (IsJumping)
         {
             IsJumping = false;
-            MyTransform.position = new Vector3(MyTransform.transform.position.x, 0.51f, MyTransform.position.z);
+            MyTransform.position = new Vector3(MyTransform.transform.position.x,yPos, MyTransform.position.z);
         }
         else if (IsSliding)
         {
             IsSliding = false;
-            MyTransform.position = new Vector3(MyTransform.transform.position.x, 0.51f, MyTransform.position.z);
+            MyTransform.position = new Vector3(MyTransform.transform.position.x, yPos, MyTransform.position.z);
         }
     }
     IEnumerator DelayForRoots()
