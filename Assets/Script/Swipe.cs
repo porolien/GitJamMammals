@@ -17,6 +17,7 @@ public class Swipe : MonoBehaviour
     private Transform MyTransform;
     private bool IsSliding;
     private bool IsJumping;
+    private Animator animator;
     public int Hp;
     public int HpMax;
     public float yPos;
@@ -27,6 +28,7 @@ public class Swipe : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        animator = GetComponent<Animator>();
         MyTransform = GetComponent<Transform>();
         RailPosition = 2;
         Hp = 2;
@@ -40,7 +42,6 @@ public class Swipe : MonoBehaviour
         //We will be rooted if we don't move our finger
         if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Stationary)
         {
-            
             StartCoroutine(DelayForRoots());
         }
         else
@@ -48,12 +49,12 @@ public class Swipe : MonoBehaviour
             DontMakeTheRootFalse = false;
         }
         //The Swipe Function
-        if(Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
         {
             startTouchPosition = Input.GetTouch(0).position;
-           
+
         }
-        if(Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
         {
             if (ItsRooted)
             {
@@ -63,6 +64,8 @@ public class Swipe : MonoBehaviour
                 {
                     block.GetComponent<Road>().speed = 1;
                 }
+                animator.SetBool("IsRooted", false);
+
             }
             else
             {
@@ -88,21 +91,20 @@ public class Swipe : MonoBehaviour
                         {
                             Debug.Log("Nope, you can't Slide");
                         }
-
                         else
                         {
+                            animator.SetBool("IsSliding", true);
+
                             if (IsJumping)
                             {
                                 IsJumping = false;
-                                MyTransform.position = new Vector3(MyTransform.transform.position.x, yPos, MyTransform.position.z);
                             }
                             else
                             {
-
                                 IsSliding = true;
-                                MyTransform.position = new Vector3(MyTransform.position.x, RightPosition.transform.position.y, MyTransform.position.z);
                                 StartCoroutine(ChangingState());
                             }
+                            StartCoroutine(SlideWait());
                         }
                         Debug.Log("down");
                     }
@@ -115,17 +117,18 @@ public class Swipe : MonoBehaviour
                         }
                         else
                         {
+                            animator.SetBool("IsJumping", true);
+
                             if (IsSliding)
                             {
                                 IsSliding = false;
-                                MyTransform.position = new Vector3(MyTransform.transform.position.x, yPos, MyTransform.position.z);
                             }
                             else
                             {
                                 IsJumping = true;
-                                MyTransform.position = new Vector3(MyTransform.position.x, UpPosition.transform.position.y, MyTransform.position.z);
                                 StartCoroutine(ChangingState());
                             }
+                            StartCoroutine(JumpWait());
                         }
                         Debug.Log("up");
 
@@ -170,8 +173,8 @@ public class Swipe : MonoBehaviour
     private void MoveThePlayer()
     {
         GameObject MyNewPosition = null;
-        switch(RailPosition)
-            {
+        switch (RailPosition)
+        {
             case 1:
                 MyNewPosition = LeftPosition;
                 break;
@@ -182,9 +185,9 @@ public class Swipe : MonoBehaviour
                 MyNewPosition = RightPosition;
                 break;
 
-            }
+        }
         Debug.Log(MyNewPosition.transform.position.x);
-        
+
         MyTransform.position = new Vector3(MyNewPosition.transform.position.x, MyTransform.position.y, MyTransform.position.z);
         Debug.Log(MyTransform.position.x);
     }
@@ -192,7 +195,7 @@ public class Swipe : MonoBehaviour
     private void TakeDmg(int damage)
     {
         Hp = Hp - damage;
-        if(Hp <= 0)
+        if (Hp <= 0)
         {
             GameOverScreen.gameObject.SetActive(true);
             Destroy(gameObject);
@@ -213,12 +216,10 @@ public class Swipe : MonoBehaviour
         if (IsJumping)
         {
             IsJumping = false;
-            MyTransform.position = new Vector3(MyTransform.transform.position.x,yPos, MyTransform.position.z);
         }
         else if (IsSliding)
         {
             IsSliding = false;
-            MyTransform.position = new Vector3(MyTransform.transform.position.x, yPos, MyTransform.position.z);
         }
     }
     IEnumerator DelayForRoots()
@@ -238,6 +239,7 @@ public class Swipe : MonoBehaviour
                     block.GetComponent<Road>().speed = 0;
                 }
                 Debug.Log("Roots");
+                animator.SetBool("IsRooted", true);
                 DontMakeTheRootFalse = false;
                 WillBeRoot = false;
                 ItsRooted = true;
@@ -247,6 +249,20 @@ public class Swipe : MonoBehaviour
                 WillBeRoot = false;
             }
         }
-        
+
+    }
+    IEnumerator SlideWait()
+    {
+            Debug.Log("Slidewit");
+            yield return new WaitForSeconds(0.5f);
+            animator.SetBool("IsSliding", false);
+    }
+
+    IEnumerator JumpWait()
+    {
+        Debug.Log("jumpwait");
+        yield return new WaitForSeconds(0.5f);
+        animator.SetBool("IsJumping", false);
+
     }
 }
