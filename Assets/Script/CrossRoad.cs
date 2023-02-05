@@ -12,6 +12,8 @@ public class CrossRoad : MonoBehaviour
     public AudioClip[] Panthere = new AudioClip[2];
     public AudioClip Axe;
     string Tag;
+    public GameObject enemi;
+    public float speed;
 
 
     private void Start()
@@ -23,7 +25,7 @@ public class CrossRoad : MonoBehaviour
     {
         if (DoStart)
         {
-            transform.position = new Vector3(transform.position.x - 0.025f, transform.position.y, transform.position.z);
+            enemi.transform.position = new Vector3(transform.position.x - speed, transform.position.y, transform.position.z);
         }
     }
 
@@ -33,7 +35,7 @@ public class CrossRoad : MonoBehaviour
         {
             if (Tag == "Panthere")
             {
-                source.PlayOneShot(Panthere[1]);
+                source.PlayOneShot(Panthere[0]);
                 DoStart = true;
             }
             else if (Tag == "Camion")
@@ -53,8 +55,4 @@ public class CrossRoad : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    //    private void OnTriggerEnter(CapsuleCollider other)
-    //    {
-
-    //    }
 }
