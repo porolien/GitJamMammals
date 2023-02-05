@@ -46,7 +46,7 @@ public class Swipe : MonoBehaviour
     {
 
         //We will be rooted if we don't move our finger
-        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Stationary)
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Stationary && !IsJumping)
         {
             StartCoroutine(DelayForRoots());
         }
