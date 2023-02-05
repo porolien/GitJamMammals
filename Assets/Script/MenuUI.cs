@@ -12,9 +12,18 @@ public class MenuUI : MonoBehaviour
     public Button SettingsButton;
     public GameObject pauseMenuUI;
     public GameObject Empty;
+    public Road TheRoad;
+    public GameObject[] AllBlock;
+    public Timer Timer;
 
     public void Play()
     {
+        Timer.TheTiming();
+        AllBlock = GameObject.FindGameObjectsWithTag("Block");
+        foreach (GameObject block in AllBlock)
+        {
+            block.GetComponent<Road>().speed = 1;
+        }
         Empty.GetComponent<StartBeginingCoroutine>().HelpingFunction();
     }
     

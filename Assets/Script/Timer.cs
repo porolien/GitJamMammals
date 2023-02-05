@@ -7,6 +7,7 @@ public class Timer : MonoBehaviour
 {
     public TMP_Text TimerText = null;
     private string TimerInString = "";
+    private int TheMinus;
 
     private void Start()
     {
@@ -15,9 +16,13 @@ public class Timer : MonoBehaviour
 
     void Update()
     {
-        int TimerInSeconds = (int)Time.timeSinceLevelLoad;
+        int TimerInSeconds = (int)Time.timeSinceLevelLoad - TheMinus;
         TimerInString = "" + (TimerInSeconds);
         TimerText.text = TimerInString;
 
+    }
+    public void TheTiming()
+    {
+        TheMinus = (int)Time.timeSinceLevelLoad;
     }
 }

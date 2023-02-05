@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -5997535007824804732}
   m_Layer: 0
   m_Name: ThirdWithRock
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -197,6 +197,10 @@ PrefabInstance:
     - target: {fileID: 7210950353459948618, guid: 8696de40b03fc8645acb2d605930de2e, type: 3}
       propertyPath: m_Name
       value: LevelDesignThird
+      objectReference: {fileID: 0}
+    - target: {fileID: 7210950353459948618, guid: 8696de40b03fc8645acb2d605930de2e, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2622395682677304502, guid: 8696de40b03fc8645acb2d605930de2e, type: 3}

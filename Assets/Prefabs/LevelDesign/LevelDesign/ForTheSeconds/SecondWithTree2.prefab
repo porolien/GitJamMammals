@@ -92,6 +92,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LevelDesignSecond (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 1253444617237814767, guid: eaaaf2007195d334fbc49d2e88f87938, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 4232042998392626801, guid: eaaaf2007195d334fbc49d2e88f87938, type: 3}
       propertyPath: m_RootOrder
       value: 0
