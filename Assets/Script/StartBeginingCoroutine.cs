@@ -46,7 +46,7 @@ public class StartBeginingCoroutine : MonoBehaviour
         // Plays the second game music after the first game music has been played twice 
         else if (!source.isPlaying) { source.PlayOneShot(Musics[2]); }
 
-        Time.timeScale = 1+(int)Time.time-TimeWhenPlayerCanPlay / (5 * 60) * 1.5f;
+       // Time.timeScale = 1+(int)Time.time-TimeWhenPlayerCanPlay / (5 * 60) * 1.5f;
     }
 
     public void HelpingFunction()
