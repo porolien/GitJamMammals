@@ -6,6 +6,8 @@ public class Road : MonoBehaviour
 {
     public Spawner spawner;
     public float speed = 1f;
+    public GameObject ACube;
+    public bool Last;
 
     private void Start()
     {
@@ -22,11 +24,13 @@ public class Road : MonoBehaviour
     {
         if (other.tag == "Player")
         {
+            Debug.Log("");
             spawner.SpawnNextBloc();
         }
 
         if (other.tag == "Spawner")
         {
+            Debug.Log("df");
             Destroy(this.gameObject);
         }
     }
