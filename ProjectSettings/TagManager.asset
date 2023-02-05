@@ -7,6 +7,10 @@ TagManager:
   - Spawner
   - Block
   - Shield
+  - OutOfTheRoad
+  - Panthere
+  - Camion
+  - Axe
   layers:
   - Default
   - TransparentFX

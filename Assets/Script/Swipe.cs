@@ -212,6 +212,7 @@ public class Swipe : MonoBehaviour
         Hp = Hp - damage;
         if (Hp <= 0)
         {
+            source.PlayOneShot(SoundEffects[1]);
             animator.SetBool("IsDead", true);
         }
         else
