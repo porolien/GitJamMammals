@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -10,18 +11,18 @@ public class MenuUI : MonoBehaviour
     public Button QuitButton;
     public Button SettingsButton;
     public GameObject pauseMenuUI;
-    // Start is called before the first frame update
-
-
+    public GameObject Empty;
     public void Play()
     {
-        SceneManager.LoadScene("Alban_Test");
-    }
-    public void Quit()
-    {
-        SceneManager.LoadScene("MenuStart");
+        Empty.GetComponent<StartBeginingCoroutine>().HelpingFunction();
+
     }
     
+    public void Quit()
+    {
+        Quit();
+    }
+
     public void Resume()
     {
         pauseMenuUI.SetActive(false);
