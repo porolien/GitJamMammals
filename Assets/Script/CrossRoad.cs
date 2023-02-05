@@ -8,7 +8,7 @@ public class CrossRoad : MonoBehaviour
 {
     public bool DoStart = false;
     AudioSource source;
-    public AudioClip[] Camion = new AudioClip[2];
+    public AudioClip[] Camion = new AudioClip[3];
     public AudioClip[] Panthere = new AudioClip[2];
     public AudioClip Axe;
     string Tag;
@@ -29,19 +29,19 @@ public class CrossRoad : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.tag == "Player" && !DoStart)
         {
-            if (Tag=="Panthere")
+            if (Tag == "Panthere")
             {
-                source.PlayOneShot(Panthere[Random.Range(0, 1)]);
+                source.PlayOneShot(Panthere[1]);
                 DoStart = true;
             }
-            else if (Tag=="Camion")
+            else if (Tag == "Camion")
             {
                 source.PlayOneShot(Camion[Random.Range(0, 1)]);
                 DoStart = true;
             }
-            else if (Tag=="Axe")
+            else if (Tag == "Axe")
             {
                 source.PlayOneShot(Axe);
                 DoStart = true;
@@ -53,4 +53,8 @@ public class CrossRoad : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    //    private void OnTriggerEnter(CapsuleCollider other)
+    //    {
+
+    //    }
 }
