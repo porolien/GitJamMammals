@@ -25,9 +25,15 @@ public class Swipe : MonoBehaviour
     public Road TheRoad;
 
     public GameObject[] AllBlock;
+
+    public AudioSource source;
+    public AudioClip[] SoundEffects = new AudioClip[3];
+
+    public bool FirstTimeRooted = true;
     // Start is called before the first frame update
     void Start()
     {
+        source = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
         MyTransform = GetComponent<Transform>();
         RailPosition = 2;
@@ -98,10 +104,13 @@ public class Swipe : MonoBehaviour
 
                             if (IsJumping)
                             {
+                                StartCoroutine(PlaySong());
+                                source.PlayOneShot(SoundEffects[0]);
                                 IsJumping = false;
                             }
                             else
                             {
+                                source.PlayOneShot(SoundEffects[0]);
                                 IsSliding = true;
                                 StartCoroutine(ChangingState());
                             }
@@ -171,6 +180,11 @@ public class Swipe : MonoBehaviour
         }
     }
 
+    IEnumerator PlaySong()
+    {
+        yield return new WaitForSeconds(0.15f);
+    }
+
     private void MoveThePlayer()
     {
         GameObject MyNewPosition = null;
@@ -198,12 +212,11 @@ public class Swipe : MonoBehaviour
         Hp = Hp - damage;
         if (Hp <= 0)
         {
-            //GameOverScreen.gameObject.SetActive(true);
-            animator.SetBool("IsDead",true);
-            //Destroy(gameObject);
+            animator.SetBool("IsDead", true);
         }
         else
         {
+            source.PlayOneShot(SoundEffects[1]);
             animator.SetBool("IsHurt", true);
             StartCoroutine(SwitchHurtBool());
             StartCoroutine(Regen());
@@ -217,7 +230,7 @@ public class Swipe : MonoBehaviour
     IEnumerator SwitchHurtBool()
     {
         yield return new WaitForSeconds(0.1f);
-        animator.SetBool("IsHurt",false);
+        animator.SetBool("IsHurt", false);
     }
     IEnumerator ChangingState()
     {
@@ -242,6 +255,12 @@ public class Swipe : MonoBehaviour
             yield return new WaitForSeconds(0.07f);
             if (DontMakeTheRootFalse)
             {
+                if (FirstTimeRooted)
+                {
+                    source.PlayOneShot(SoundEffects[2]);
+                    FirstTimeRooted = false;
+
+                }
                 AllBlock = GameObject.FindGameObjectsWithTag("Block");
                 foreach (GameObject block in AllBlock)
                 {
@@ -256,6 +275,7 @@ public class Swipe : MonoBehaviour
             else
             {
                 WillBeRoot = false;
+                FirstTimeRooted = true;
             }
         }
 

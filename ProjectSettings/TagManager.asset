@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Spawner
   - Block
+  - Shield
   layers:
   - Default
   - TransparentFX

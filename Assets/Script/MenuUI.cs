@@ -15,7 +15,6 @@ public class MenuUI : MonoBehaviour
     public void Play()
     {
         Empty.GetComponent<StartBeginingCoroutine>().HelpingFunction();
-
     }
     
     public void Quit()
