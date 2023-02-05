@@ -319,29 +319,4 @@ public class Swipe : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         animator.SetBool("IsJumping", false);
     }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.tag == "Panthere" && other.GetComponent<CrossRoad>().DoStart)
-        {
-            if (other.tag == "Panthere" && other.GetComponent<CrossRoad>().DoStart)
-            {
-                source.PlayOneShot(other.GetComponent<CrossRoad>().Panthere[1]);
-                TakeDmg(2);
-            }
-            if (other.tag == "Camion")
-            {
-                source.PlayOneShot(other.GetComponent<CrossRoad>().Camion[2]);
-                TakeDmg(2);
-            }
-            if (other.tag == "Axe")
-            {
-                TakeDmg(2);
-            }
-        }
-        else
-        {
-            Debug.Log("hello");
-        }
-    }
 }
