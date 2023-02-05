@@ -61,7 +61,7 @@ public class StartBeginingCoroutine : MonoBehaviour
     {
         StartUI.SetActive(false);
         animator.SetBool("IsSurprised", true);
-        yield return new WaitForSeconds(seconds: 2.5f);
+        yield return new WaitForSeconds(seconds: 2.2f);
         Player.GetComponent<Swipe>().enabled = true;
         TimeWhenPlayerCanPlay = (int)Time.time;
         foreach (var block in FirstsBlocks)

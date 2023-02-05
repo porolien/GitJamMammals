@@ -214,6 +214,12 @@ public class Swipe : MonoBehaviour
         {
             source.PlayOneShot(SoundEffects[1]);
             animator.SetBool("IsDead", true);
+            AllBlock = GameObject.FindGameObjectsWithTag("Block");
+            foreach (GameObject block in AllBlock)
+            {
+                block.GetComponent<Road>().speed = 0;
+            }
+
         }
         else
         {
