@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Swipe : MonoBehaviour
@@ -23,7 +24,7 @@ public class Swipe : MonoBehaviour
     public float yPos;
     public Canvas GameOverScreen;
     public Road TheRoad;
-
+    public Spawner Spawner;
     public GameObject[] AllBlock;
 
     public AudioSource source;
@@ -66,6 +67,11 @@ public class Swipe : MonoBehaviour
             {
                 ItsRooted = false;
                 AllBlock = GameObject.FindGameObjectsWithTag("Block");
+                foreach (GameObject block in AllBlock)
+                {
+                    block.GetComponent<Road>().speed = 1;
+                }
+                AllBlock = GameObject.FindGameObjectsWithTag("Parallax");
                 foreach (GameObject block in AllBlock)
                 {
                     block.GetComponent<Road>().speed = 1;
@@ -219,6 +225,14 @@ public class Swipe : MonoBehaviour
             {
                 block.GetComponent<Road>().speed = 0;
             }
+            AllBlock = GameObject.FindGameObjectsWithTag("Parallax");
+            foreach (GameObject block in AllBlock)
+            {
+                block.GetComponent<Road>().speed = 0;
+            }
+            Spawner.GetComponent<Spawner>().StopSpawning = true;
+            GameOverScreen.gameObject.SetActive(true);
+            this.GetComponent<Swipe>().enabled = false ;
 
         }
         else
@@ -269,6 +283,11 @@ public class Swipe : MonoBehaviour
 
                 }
                 AllBlock = GameObject.FindGameObjectsWithTag("Block");
+                foreach (GameObject block in AllBlock)
+                {
+                    block.GetComponent<Road>().speed = 0;
+                }
+                AllBlock = GameObject.FindGameObjectsWithTag("Parallax");
                 foreach (GameObject block in AllBlock)
                 {
                     block.GetComponent<Road>().speed = 0;

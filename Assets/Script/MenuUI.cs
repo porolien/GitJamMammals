@@ -24,12 +24,23 @@ public class MenuUI : MonoBehaviour
         {
             block.GetComponent<Road>().speed = 1;
         }
+        AllBlock = GameObject.FindGameObjectsWithTag("Parallax");
+        foreach (GameObject block in AllBlock)
+        {
+            block.GetComponent<Road>().speed = 1;
+        }
         Empty.GetComponent<StartBeginingCoroutine>().HelpingFunction();
     }
-    
+
     public void Quit()
     {
         Quit();
+    }
+    public void Retry()
+    { 
+
+        SceneManager.UnloadSceneAsync("Alban_test");
+        SceneManager.LoadScene("Alban_test");
     }
 
     public void Resume()

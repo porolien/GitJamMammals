@@ -22,17 +22,35 @@ public class Road : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player")
+        
+        if (tag == "Parallax")
         {
-            Debug.Log("");
-            spawner.SpawnNextBloc();
+            
+            if (other.tag == "Spawner")
+            {
+                spawner.SpawnNextBloc("Parallax");
+                StartCoroutine(DestroyIt());
+            }
         }
+        else
+        {
+            if (other.tag == "Player")
+            {
+                Debug.Log("");
+                spawner.SpawnNextBloc("Block");
+            }
 
-        if (other.tag == "Spawner")
-        {
-            Debug.Log("df");
-            Destroy(this.gameObject);
+            if (other.tag == "Spawner")
+            {
+                Debug.Log("df");
+                Destroy(this.gameObject);
+            }
         }
+    }
+    IEnumerator DestroyIt()
+    {
+        yield return new WaitForSeconds(20f);
+        Destroy(this.gameObject);
     }
 
 }
