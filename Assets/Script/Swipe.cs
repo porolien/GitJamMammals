@@ -8,7 +8,7 @@ public class Swipe : MonoBehaviour
     private Vector2 endTouchPosition;
     private bool WillBeRoot;
     private bool DontMakeTheRootFalse;
-    private bool ItsRooted;
+    public bool ItsRooted;
     private int RailPosition;
     public GameObject LeftPosition;
     public GameObject RightPosition;
@@ -17,6 +17,7 @@ public class Swipe : MonoBehaviour
     private Transform MyTransform;
     private bool IsSliding;
     private bool IsJumping;
+    private Animator animator;
     public int Hp;
     public int HpMax;
     public float yPos;
@@ -24,9 +25,16 @@ public class Swipe : MonoBehaviour
     public Road TheRoad;
 
     public GameObject[] AllBlock;
+
+    public AudioSource source;
+    public AudioClip[] SoundEffects = new AudioClip[3];
+
+    public bool FirstTimeRooted = true;
     // Start is called before the first frame update
     void Start()
     {
+        source = GetComponent<AudioSource>();
+        animator = GetComponent<Animator>();
         MyTransform = GetComponent<Transform>();
         RailPosition = 2;
         Hp = 2;
@@ -36,11 +44,10 @@ public class Swipe : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
         //We will be rooted if we don't move our finger
-        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Stationary)
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Stationary && !IsJumping)
         {
-            
             StartCoroutine(DelayForRoots());
         }
         else
@@ -48,12 +55,12 @@ public class Swipe : MonoBehaviour
             DontMakeTheRootFalse = false;
         }
         //The Swipe Function
-        if(Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
         {
             startTouchPosition = Input.GetTouch(0).position;
-           
+
         }
-        if(Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
         {
             if (ItsRooted)
             {
@@ -63,6 +70,9 @@ public class Swipe : MonoBehaviour
                 {
                     block.GetComponent<Road>().speed = 1;
                 }
+                Debug.Log("EndRoot");
+                animator.SetBool("IsRooted", false);
+
             }
             else
             {
@@ -88,21 +98,23 @@ public class Swipe : MonoBehaviour
                         {
                             Debug.Log("Nope, you can't Slide");
                         }
-
                         else
                         {
+                            animator.SetBool("IsSliding", true);
+
                             if (IsJumping)
                             {
+                                StartCoroutine(PlaySong());
+                                source.PlayOneShot(SoundEffects[0]);
                                 IsJumping = false;
-                                MyTransform.position = new Vector3(MyTransform.transform.position.x, yPos, MyTransform.position.z);
                             }
                             else
                             {
-
+                                source.PlayOneShot(SoundEffects[0]);
                                 IsSliding = true;
-                                MyTransform.position = new Vector3(MyTransform.position.x, RightPosition.transform.position.y, MyTransform.position.z);
                                 StartCoroutine(ChangingState());
                             }
+                            StartCoroutine(SlideWait());
                         }
                         Debug.Log("down");
                     }
@@ -115,17 +127,18 @@ public class Swipe : MonoBehaviour
                         }
                         else
                         {
+                            animator.SetBool("IsJumping", true);
+
                             if (IsSliding)
                             {
                                 IsSliding = false;
-                                MyTransform.position = new Vector3(MyTransform.transform.position.x, yPos, MyTransform.position.z);
                             }
                             else
                             {
                                 IsJumping = true;
-                                MyTransform.position = new Vector3(MyTransform.position.x, UpPosition.transform.position.y, MyTransform.position.z);
                                 StartCoroutine(ChangingState());
                             }
+                            StartCoroutine(JumpWait());
                         }
                         Debug.Log("up");
 
@@ -167,11 +180,16 @@ public class Swipe : MonoBehaviour
         }
     }
 
+    IEnumerator PlaySong()
+    {
+        yield return new WaitForSeconds(0.15f);
+    }
+
     private void MoveThePlayer()
     {
         GameObject MyNewPosition = null;
-        switch(RailPosition)
-            {
+        switch (RailPosition)
+        {
             case 1:
                 MyNewPosition = LeftPosition;
                 break;
@@ -182,23 +200,26 @@ public class Swipe : MonoBehaviour
                 MyNewPosition = RightPosition;
                 break;
 
-            }
+        }
         Debug.Log(MyNewPosition.transform.position.x);
-        
+
         MyTransform.position = new Vector3(MyNewPosition.transform.position.x, MyTransform.position.y, MyTransform.position.z);
         Debug.Log(MyTransform.position.x);
     }
 
-    private void TakeDmg(int damage)
+    public void TakeDmg(int damage)
     {
         Hp = Hp - damage;
-        if(Hp <= 0)
+        if (Hp <= 0)
         {
-            GameOverScreen.gameObject.SetActive(true);
-            Destroy(gameObject);
+            source.PlayOneShot(SoundEffects[1]);
+            animator.SetBool("IsDead", true);
         }
         else
         {
+            source.PlayOneShot(SoundEffects[1]);
+            animator.SetBool("IsHurt", true);
+            StartCoroutine(SwitchHurtBool());
             StartCoroutine(Regen());
         }
     }
@@ -207,18 +228,21 @@ public class Swipe : MonoBehaviour
         yield return new WaitForSeconds(2f);
         Hp = HpMax;
     }
+    IEnumerator SwitchHurtBool()
+    {
+        yield return new WaitForSeconds(0.1f);
+        animator.SetBool("IsHurt", false);
+    }
     IEnumerator ChangingState()
     {
         yield return new WaitForSeconds(1f);
         if (IsJumping)
         {
             IsJumping = false;
-            MyTransform.position = new Vector3(MyTransform.transform.position.x,yPos, MyTransform.position.z);
         }
         else if (IsSliding)
         {
             IsSliding = false;
-            MyTransform.position = new Vector3(MyTransform.transform.position.x, yPos, MyTransform.position.z);
         }
     }
     IEnumerator DelayForRoots()
@@ -232,12 +256,19 @@ public class Swipe : MonoBehaviour
             yield return new WaitForSeconds(0.07f);
             if (DontMakeTheRootFalse)
             {
+                if (FirstTimeRooted)
+                {
+                    source.PlayOneShot(SoundEffects[2]);
+                    FirstTimeRooted = false;
+
+                }
                 AllBlock = GameObject.FindGameObjectsWithTag("Block");
                 foreach (GameObject block in AllBlock)
                 {
                     block.GetComponent<Road>().speed = 0;
                 }
                 Debug.Log("Roots");
+                animator.SetBool("IsRooted", true);
                 DontMakeTheRootFalse = false;
                 WillBeRoot = false;
                 ItsRooted = true;
@@ -245,8 +276,47 @@ public class Swipe : MonoBehaviour
             else
             {
                 WillBeRoot = false;
+                FirstTimeRooted = true;
             }
         }
-        
+
+    }
+    IEnumerator SlideWait()
+    {
+        Debug.Log("Slidewit");
+        yield return new WaitForSeconds(0.1f);
+        animator.SetBool("IsSliding", false);
+    }
+
+    IEnumerator JumpWait()
+    {
+        Debug.Log("jumpwait");
+        yield return new WaitForSeconds(0.1f);
+        animator.SetBool("IsJumping", false);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Panthere" && other.GetComponent<CrossRoad>().DoStart)
+        {
+            if (other.tag == "Panthere" && other.GetComponent<CrossRoad>().DoStart)
+            {
+                source.PlayOneShot(other.GetComponent<CrossRoad>().Panthere[1]);
+                TakeDmg(2);
+            }
+            if (other.tag == "Camion")
+            {
+                source.PlayOneShot(other.GetComponent<CrossRoad>().Camion[2]);
+                TakeDmg(2);
+            }
+            if (other.tag == "Axe")
+            {
+                TakeDmg(2);
+            }
+        }
+        else
+        {
+            Debug.Log("hello");
+        }
     }
 }

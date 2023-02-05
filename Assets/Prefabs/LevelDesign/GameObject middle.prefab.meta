@@ -1,7 +1,13 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Prefabs/LevelDesign/GameObject middle.prefab.meta
 guid: c1c6d493ad4cb9e479dda56cb73c03ff
 PrefabImporter:
+========
+guid: 7806d4b87a98c394a890a2520cf46540
+NativeFormatImporter:
+>>>>>>>> c14e223 (Right speed Anim + delete old anim*):Assets/Animation/Character/Jumpv3.anim.meta
   externalObjects: {}
+  mainObjectFileID: 7400000
   userData: 
   assetBundleName: 
   assetBundleVariant: 
