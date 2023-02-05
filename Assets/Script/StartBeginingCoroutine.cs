@@ -13,6 +13,9 @@ public class StartBeginingCoroutine : MonoBehaviour
     public AudioClip[] Musics = new AudioClip[3];
     int Music_count = 0;
 
+    int TimeWhenPlayerCanPlay;
+
+
     private void Start()
     {
         source = GetComponent<AudioSource>();
@@ -35,13 +38,15 @@ public class StartBeginingCoroutine : MonoBehaviour
         }
 
         // Play the first game music twice 
-        if (Music_count < 2 && !source.isPlaying)
+        if (Music_count <= 2 && !source.isPlaying)
         {
             source.PlayOneShot(Musics[1]);
         }
 
         // Plays the second game music after the first game music has been played twice 
         else if (!source.isPlaying) { source.PlayOneShot(Musics[2]); }
+
+        Time.timeScale = 1+(int)Time.time-TimeWhenPlayerCanPlay / (5 * 60) * 1.5f;
     }
 
     public void HelpingFunction()
@@ -58,6 +63,7 @@ public class StartBeginingCoroutine : MonoBehaviour
         animator.SetBool("IsSurprised", true);
         yield return new WaitForSeconds(seconds: 2.5f);
         Player.GetComponent<Swipe>().enabled = true;
+        TimeWhenPlayerCanPlay = (int)Time.time;
         foreach (var block in FirstsBlocks)
         {
             block.GetComponent<Road>().enabled = true;

@@ -12,6 +12,7 @@ public class MenuUI : MonoBehaviour
     public Button SettingsButton;
     public GameObject pauseMenuUI;
     public GameObject Empty;
+
     public void Play()
     {
         Empty.GetComponent<StartBeginingCoroutine>().HelpingFunction();

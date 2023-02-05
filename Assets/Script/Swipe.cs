@@ -297,7 +297,7 @@ public class Swipe : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag=="Panthere" && other.GetComponent<CrossRoad>().DoStart)
+        if (other.tag == "Panthere" && other.GetComponent<CrossRoad>().DoStart)
         {
             if (other.tag == "Panthere" && other.GetComponent<CrossRoad>().DoStart)
             {
@@ -314,6 +314,9 @@ public class Swipe : MonoBehaviour
                 TakeDmg(2);
             }
         }
-        else { Debug.Log("hello"); }
+        else
+        {
+            Debug.Log("hello");
+        }
     }
 }
